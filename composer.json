@@ -1,0 +1,35 @@
+{
+    "name": "anomaly/files-field_type",
+    "type": "streams-addon",
+    "description": "A multiple files upload field type.",
+    "keywords": [
+        "field type",
+        "streams-platform",
+        "laravel"
+    ],
+    "homepage": "http://anomaly.is/",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AnomalyLabs, Inc.",
+            "email": "hello@anomaly.is",
+            "homepage": "http://anomaly.is/",
+            "role": "Owner"
+        }
+    ],
+    "support": {
+        "email": "support@anomaly.is"
+    },
+    "autoload": {
+        "psr-4": {
+            "Anomaly\\FilesFieldType\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
