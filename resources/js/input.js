@@ -4,16 +4,16 @@ $(function () {
     $('.files-field-type .dropzone').each(function () {
 
         // Configure Dropzone
-        $(this).dropzone({
-            url: 'admin/files/upload',
-            paramName: 'file',
-            dictDefaultMessage: DROPZONE_MESSAGE,
+        var dropzone = $(this).dropzone({
+            url: '/streams/files-field_type/upload',
+            paramName: 'upload',
+            dictDefaultMessage: $(this).data('message'),
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             sending: function (file, xhr, formData) {
-                formData.append('disk', DROPZONE_DISK);
-                formData.append('folder', DROPZONE_FOLDER);
+                formData.append('disk', dropzone.data('disk'));
+                formData.append('path', dropzone.data('path'));
             }
         });
     });
