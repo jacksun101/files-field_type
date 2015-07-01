@@ -31,9 +31,12 @@ class UploadController extends PublicController
         FolderRepositoryInterface $folders,
         MountManager $manager
     ) {
+
+        $path = trim($request->get('path'), '.');
+
         $file   = $request->file('upload');
         $disk   = $disks->findBySlug($request->get('disk'));
-        $folder = $folders->findByPath($request->get('path'), $disk);
+        $folder = empty($path) ? null : $folders->findByPath($path, $disk);
 
         if ($folder) {
             $path = $folder->path($file->getClientOriginalName());
