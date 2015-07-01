@@ -44,12 +44,6 @@ class UploadController extends PublicController
             $path = $file->getClientOriginalName();
         }
 
-        $manager->putStream(
-            $disk->getSlug() . '://' . $path,
-            fopen($file->getRealPath(), 'r+'),
-            [
-                'mimetype' => $file->getMimeType()
-            ]
-        );
+        $manager->putStream($disk->path($path), fopen($file->getRealPath(), 'r+'));
     }
 }
