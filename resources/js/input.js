@@ -26,10 +26,17 @@ $(function () {
                 thumbnailHeight: 80,
                 parallelUploads: 20,
                 previewTemplate: preview,
+                maxFilesize: wrapper.find('.files').data('max'),
                 previewsContainer: '[data-field="' + wrapper.data('field') + '"]',
                 clickable: '[data-field="' + wrapper.data('field') + '"] [data-action="upload-files"]'
             }
         );
+
+        var types = types = wrapper.find('.files').data('mimes');
+
+        if (types.length > 0) {
+            myDropzone.options.acceptedFiles = types.split(',');
+        }
 
         myDropzone.on('addedfile', function (file) {
             /*file.previewElement.querySelector('[data-action="upload-file"]').onclick = function () {

@@ -39,6 +39,36 @@ class FilesFieldType extends FieldType implements SelfHandling
     protected $wrapperView = 'anomaly.field_type.files::wrapper';
 
     /**
+     * Get the config.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        $config = parent::getConfig();
+
+        /**
+         * If images only manually set
+         * the allowed mimes.
+         */
+        if (array_get($config, 'image')) {
+            array_set($config, 'mimes', ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg']);
+        }
+
+        /**
+         * If restricting mimes then prepend
+         * with a period as Dropzone requires.
+         */
+        if (isset($config['mimes'])) {
+            foreach ($config['mimes'] as &$extension) {
+                $extension = '.' . $extension;
+            }
+        }
+
+        return $config;
+    }
+
+    /**
      * Get the relation.
      *
      * @return BelongsToMany

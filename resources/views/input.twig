@@ -1,8 +1,11 @@
 {{ asset_add('scripts.js', 'anomaly.field_type.files::js/dropzone.min.js') }}
-{{ asset_add('scripts.js', 'anomaly.field_type.files::js/input.js', ['live']) }}
-{{ asset_add('styles.css', 'anomaly.field_type.files::less/input.less', ['live']) }}
+{{ asset_add('scripts.js', 'anomaly.field_type.files::js/input.js') }}
+{{ asset_add('styles.css', 'anomaly.field_type.files::less/input.less') }}
 
-<div class="files">
+<div
+        class="files"
+        data-mimes="{{ field_type.config.mimes|join(',') }}"
+        data-max="{{ field_type.config.max }}">
 
     {% include "anomaly.field_type.files::files" %}
     {% include "anomaly.field_type.files::template" %}
