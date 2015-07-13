@@ -4,35 +4,7 @@
 
 <div class="files">
 
-    {% for file in field_type.value %}
-
-        <div class="media">
-            <div class="media-left">
-                <a href="{{ url('streams/files-field_type/view/' ~ file.id) }}" target="_blank"
-                   class="preview no-preview">
-                    <img class="media-object img-rounded"/>
-                    {{ icon('file') }}
-                </a>
-            </div>
-            <div class="media-body">
-
-                <strong class="media-heading">
-                    {{ file.name }}
-                </strong>
-
-                <p>{{ file.readable_size }}</p>
-
-                <a class="btn btn-xs btn-danger delete">
-                    <i class="glyphicons glyphicons-trash"></i>
-                    <span>{{ trans('streams::button.delete') }}</span>
-                </a>
-            </div>
-
-            <input type="hidden" name="{{ field_type.input_name }}[]" value="{{ file.id }}">
-        </div>
-
-    {% endfor %}
-
+    {% include "anomaly.field_type.files::files" %}
     {% include "anomaly.field_type.files::template" %}
 
 </div>
