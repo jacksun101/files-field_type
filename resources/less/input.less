@@ -1,0 +1,55 @@
+.files-field-type {
+    label {
+        .help-block {
+            display: inline;
+            font-size: 12px;
+        }
+    }
+
+    .media {
+
+        .media-left {
+            a.preview {
+                width: 80px;
+                height: 80px;
+                display: block;
+                text-align: center;
+
+                i {
+                    display: none;
+                }
+
+                &.no-preview {
+                    border-radius: 5px;
+                    border: 1px dashed #cccccc;
+
+                    img {
+                        display: none;
+                    }
+
+                    i {
+                        width: 100%;
+                        color: #cccccc;
+                        font-size: 40px;
+                        margin-top: 20px;
+                        display: inline-block;
+                    }
+                }
+            }
+
+            .progress {
+                position: relative;
+                margin: -12px 5px 0;
+            }
+        }
+
+        .media-body {
+            p {
+                color: #66686a;
+                font-size: 16px;
+                line-height: 1.35;
+                margin-bottom: 1px;
+            }
+        }
+    }
+}

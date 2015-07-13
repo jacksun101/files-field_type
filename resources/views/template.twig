@@ -1,0 +1,28 @@
+<div class="template hidden">
+
+    <div class="media">
+        <div class="media-left">
+            <a href="#" target="_blank" class="preview">
+                <img class="media-object img-rounded" data-dz-thumbnail/>
+                {{ icon('file') }}
+            </a>
+
+            <div class="progress progress-xs" data-progress="file" style="visibility: hidden;">
+                <div class="progress-bar progress-bar-success" data-dz-uploadprogress></div>
+            </div>
+        </div>
+        <div class="media-body">
+            <strong class="media-heading" data-dz-name></strong>
+
+            <p data-dz-size data-dz-errormessage></p>
+
+            <a class="btn btn-xs btn-danger delete">
+                <i class="glyphicons glyphicons-trash"></i>
+                <span>{{ trans('streams::button.delete') }}</span>
+            </a>
+        </div>
+
+        <input type="hidden" name="{{ field_type.input_name }}[]">
+    </div>
+
+</div>

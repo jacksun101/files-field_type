@@ -1,0 +1,37 @@
+<div
+        {{ field_type.locale ? 'lang=' ~ field_type.locale }}
+        class="form-group {{ field_type.slug }}-field-type {{ field_type.hidden ? 'hidden' }}"
+        data-field="{{ field_type.field }}">
+
+    <label class="control-label">
+        {{ trans(field_type.label)|raw }}
+
+        {% if field_type.instructions %}
+            <small class="help-block">&mdash; {{ trans(field_type.instructions)|raw }}</small>
+        {% endif %}
+
+        {% if field_type.required %}
+            <span class="required">*</span>
+        {% endif %}
+
+        {% if field_type.locale %}
+            <span class="label label-mini label-default">
+                {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
+            </span>
+        {% endif %}
+
+        <div class="pull-right">
+            <a href="#" class="btn btn-xs btn-success" data-action="upload-files">
+                {{ icon('upload') }}
+                <span>{{ trans('anomaly.field_type.files::button.upload_files') }}</span>
+            </a>
+        </div>
+
+        <div class="progress progress-xs" data-progress="total" style="visibility: hidden;">
+            <div class="progress-bar progress-bar-success" data-dz-uploadprogress></div>
+        </div>
+    </label>
+
+    {{ field_type.renderInput()|raw }}
+
+</div>

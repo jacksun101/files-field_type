@@ -1,8 +1,9 @@
 <?php namespace Anomaly\FilesFieldType\Http\Controller;
 
 use Anomaly\FilesModule\Disk\Contract\DiskRepositoryInterface;
-use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
+use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
@@ -20,30 +21,37 @@ class UploadController extends PublicController
     /**
      * Handle the file upload.
      *
-     * @param Request                   $request
-     * @param DiskRepositoryInterface   $disks
-     * @param FolderRepositoryInterface $folders
-     * @param MountManager              $manager
+     * @param DiskRepositoryInterface $disks
+     * @param ResponseFactory         $response
+     * @param MountManager            $manager
+     * @param Request                 $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(
-        Request $request,
         DiskRepositoryInterface $disks,
-        FolderRepositoryInterface $folders,
-        MountManager $manager
+        ResponseFactory $response,
+        MountManager $manager,
+        Request $request
     ) {
 
         $path = trim($request->get('path'), '.');
 
-        $file   = $request->file('upload');
-        $disk   = $disks->findBySlug($request->get('disk'));
-        $folder = empty($path) ? null : $folders->findByPath($path, $disk);
+        $file = $request->file('upload');
+        $disk = $request->get('disk');
 
-        if ($folder) {
-            $path = $folder->path($file->getClientOriginalName());
-        } else {
-            $path = $file->getClientOriginalName();
+        if (is_numeric($disk)) {
+            $disk = $disks->find($disk);
+        } elseif (is_string($disk)) {
+            $disk = $disks->findBySlug($disk);
         }
 
-        $manager->putStream($disk->path($path), fopen($file->getRealPath(), 'r+'));
+        $file = $manager->putStream(
+            $disk->path(ltrim(trim($path, '/') . '/' . $file->getClientOriginalName(), '/')),
+            fopen($file->getRealPath(), 'r+')
+        );
+
+        /* @var FileInterface $file */
+
+        return $response->json($file->getAttributes());
     }
 }

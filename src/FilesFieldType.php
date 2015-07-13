@@ -2,6 +2,8 @@
 
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\FilesFieldType
  */
-class FilesFieldType extends FieldType
+class FilesFieldType extends FieldType implements SelfHandling
 {
 
     /**
@@ -28,6 +30,13 @@ class FilesFieldType extends FieldType
      * @var string
      */
     protected $inputView = 'anomaly.field_type.files::input';
+
+    /**
+     * The wrapper view.
+     *
+     * @var string
+     */
+    protected $wrapperView = 'anomaly.field_type.files::wrapper';
 
     /**
      * Get the relation.
@@ -64,5 +73,18 @@ class FilesFieldType extends FieldType
     public function getRelatedModel()
     {
         return $this->container->make(array_get($this->getConfig(), 'related'), 'Anomaly\FilesModule\File\FileModel');
+    }
+
+    /**
+     * Handle saving the form data ourselves.
+     *
+     * @param FormBuilder $builder
+     */
+    public function handle(FormBuilder $builder)
+    {
+        $entry = $builder->getFormEntry();
+
+        // See the accessor for how IDs are handled.
+        $entry->{$this->getField()} = $this->getPostValue();
     }
 }
