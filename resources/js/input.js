@@ -17,8 +17,8 @@ $(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 sending: function (file, xhr, formData) {
-                    formData.append('disk', 1);
-                    formData.append('path', 'Test Folder/Pages');
+                    formData.append('disk', wrapper.find('.files').data('disk'));
+                    formData.append('path', wrapper.find('.files').data('path'));
                 },
 
                 autoQueue: true,
