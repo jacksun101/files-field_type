@@ -20,9 +20,9 @@
 
             <p>{{ file.readable_size }}</p>
 
-            <a class="btn btn-xs btn-danger delete">
-                <i class="glyphicons glyphicons-trash"></i>
-                <span>{{ trans('streams::button.delete') }}</span>
+            <a class="btn btn-xs btn-danger" href="#" data-action="remove">
+                {{ icon('times-circle') }}
+                <span>{{ trans('anomaly.field_type.files::button.remove') }}</span>
             </a>
         </div>
 

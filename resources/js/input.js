@@ -92,4 +92,13 @@ $(function () {
             wrapper.find('[data-progress="total"]').css('visibility', 'hidden');
         });
     });
+
+
+    // Bind remove buttons.
+    $(document).on('click', '.files-field-type [data-action="remove"]', function (e) {
+
+        e.preventDefault();
+
+        $(this).closest('.media').remove();
+    });
 });

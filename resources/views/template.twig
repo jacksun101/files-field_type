@@ -19,9 +19,9 @@
 
             <p class="error" data-dz-size data-dz-errormessage></p>
 
-            <a class="btn btn-xs btn-danger delete">
-                <i class="glyphicons glyphicons-trash"></i>
-                <span>{{ trans('streams::button.delete') }}</span>
+            <a class="btn btn-xs btn-danger" data-action="remove">
+                {{ icon('times-circle') }}
+                <span>{{ trans('anomaly.field_type.files::button.remove') }}</span>
             </a>
         </div>
 

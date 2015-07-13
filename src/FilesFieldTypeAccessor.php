@@ -29,7 +29,11 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
      */
     public function set($value)
     {
-        if (is_array($value) || $value instanceof Collection) {
+        if (is_array($value)) {
+            $this->fieldType->getRelation()->sync(array_filter($value));
+        }
+
+        if ($value instanceof Collection) {
             $this->fieldType->getRelation()->sync($value);
         }
     }

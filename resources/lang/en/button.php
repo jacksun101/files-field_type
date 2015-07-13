@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'upload_files' => 'Upload Files'
+    'upload_files' => 'Upload Files',
+    'remove'       => 'Remove'
 ];
