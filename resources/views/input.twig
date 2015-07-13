@@ -1,12 +1,2 @@
-{{ asset_add('scripts.js', 'anomaly.field_type.files::js/dropzone.js', ['live']) }}
-{{ asset_add('scripts.js', 'anomaly.field_type.files::js/input.js', ['live']) }}
-
-{{ asset_add('styles.css', 'anomaly.field_type.files::less/dropzone.less', ['live']) }}
-{{ asset_add('styles.css', 'anomaly.field_type.files::less/input.less', ['live']) }}
-
-<div class="dropzone" data-disk="{{ field_type.config.disk }}" data-path="{{ field_type.config.path }}"
-     data-message="{{ icon('upload')|escape }}&nbsp;&nbsp;{{ trans('anomaly.field_type.files::uploader.instructions') }}">
-    <div class="fallback">
-        <input name="upload" type="file" multiple/>
-    </div>
-</div>
+{#{{ asset_add('scripts.js', 'anomaly.field_type.files::js/dropzone.js', ['live']) }}
+{{ asset_add('styles.css', 'anomaly.field_type.files::less/input.less', ['live']) }}#}

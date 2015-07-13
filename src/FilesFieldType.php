@@ -1,5 +1,6 @@
 <?php namespace Anomaly\FilesFieldType;
 
+use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -40,8 +41,8 @@ class FilesFieldType extends FieldType
         return $entry->belongsToMany(
             array_get($this->config, 'related', 'Anomaly\FilesModule\File\FileModel'),
             $this->getPivotTableName(),
-            $this->getForeignKey(),
-            $this->getOtherKey()
+            'entry_id',
+            'file_id'
         );
     }
 
@@ -52,28 +53,16 @@ class FilesFieldType extends FieldType
      */
     public function getPivotTableName()
     {
-        $default = $this->entry->getStreamPrefix() . $this->entry->getStreamSlug() . '_' . $this->getField();
-
-        return array_get($this->config, 'pivot_table', $default);
+        return $this->entry->getTableName() . '_' . $this->getField();
     }
 
     /**
-     * Get the foreign key.
+     * Get the related model.
      *
-     * @return mixed
+     * @return null|FileModel
      */
-    public function getForeignKey()
+    public function getRelatedModel()
     {
-        return array_get($this->config, 'foreign_key', 'entry_id');
-    }
-
-    /**
-     * Get the related key.
-     *
-     * @return mixed
-     */
-    public function getOtherKey()
-    {
-        return array_get($this->config, 'related_key', 'file_id');
+        return $this->container->make(array_get($this->getConfig(), 'related'), 'Anomaly\FilesModule\File\FileModel');
     }
 }

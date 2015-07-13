@@ -45,6 +45,8 @@ class DropPivotTable
             return;
         }
 
-        $this->schema->dropIfExists($fieldType->getPivotTableName());
+        $this->schema->dropIfExists(
+            $table = $assignment->getStreamPrefix() . $assignment->getStreamSlug() . '_' . $fieldType->getField()
+        );
     }
 }
