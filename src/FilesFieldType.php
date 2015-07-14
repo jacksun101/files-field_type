@@ -65,6 +65,17 @@ class FilesFieldType extends FieldType implements SelfHandling
             }
         }
 
+        /**
+         * Determine the default max upload size.
+         */
+        if (!array_get($config, 'max')) {
+
+            $post = str_replace('M', '', ini_get('post_max_size'));
+            $file = str_replace('M', '', ini_get('upload_max_filesize'));
+
+            array_set($config, 'max', $file > $post ? $post : $file);
+        }
+
         return $config;
     }
 
