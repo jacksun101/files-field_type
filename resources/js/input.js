@@ -9,7 +9,7 @@ $(function () {
 
         template.remove();
 
-        var myDropzone = new Dropzone('[data-field="' + wrapper.data('field') + '"]',
+        var myDropzone = new Dropzone('[data-field="' + wrapper.data('field') + '"] .dropzone',
             {
                 paramName: 'upload',
                 url: '/streams/files-field_type/upload',
@@ -27,8 +27,8 @@ $(function () {
                 parallelUploads: 20,
                 previewTemplate: preview,
                 maxFilesize: wrapper.find('.files').data('max'),
-                previewsContainer: '[data-field="' + wrapper.data('field') + '"]',
-                clickable: '[data-field="' + wrapper.data('field') + '"] [data-action="upload-files"]'
+                dictDefaultMessage: wrapper.find('.files').data('message'),
+                previewsContainer: '[data-field="' + wrapper.data('field') + '"]'
             }
         );
 
