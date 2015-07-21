@@ -3,9 +3,9 @@
     "type": "streams-addon",
     "description": "A multiple files upload field type.",
     "keywords": [
-        "field type",
-        "streams-platform",
-        "laravel"
+        "streams field type",
+        "streams addon",
+        "field type"
     ],
     "homepage": "http://anomaly.is/",
     "version": "1.0.0",
@@ -28,8 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-1.0/master": "1.0.x-dev"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
