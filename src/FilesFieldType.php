@@ -1,5 +1,6 @@
 <?php namespace Anomaly\FilesFieldType;
 
+use Anomaly\FilesFieldType\Validation\ValidateDisk;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -37,6 +38,27 @@ class FilesFieldType extends FieldType implements SelfHandling
      * @var string
      */
     protected $wrapperView = 'anomaly.field_type.files::wrapper';
+
+    /**
+     * The field type rules.
+     *
+     * @var array
+     */
+    protected $rules = [
+        'valid_disk'
+    ];
+
+    /**
+     * The field type validators.
+     *
+     * @var array
+     */
+    protected $validators = [
+        'valid_disk' => [
+            'handler' => ValidateDisk::class,
+            'message' => 'anomaly.field_type.files::validation.valid_disk'
+        ]
+    ];
 
     /**
      * Get the config.

@@ -35,14 +35,8 @@ $(function () {
         var types = types = wrapper.find('.files').data('mimes');
 
         if (types.length > 0) {
-            myDropzone.options.acceptedFiles = types.split(',');
+            myDropzone.options.acceptedFiles = types;
         }
-
-        myDropzone.on('addedfile', function (file) {
-            /*file.previewElement.querySelector('[data-action="upload-file"]').onclick = function () {
-             myDropzone.enqueueFile(file);
-             };*/
-        });
 
         // Update the total progress bar
         myDropzone.on('totaluploadprogress', function (progress) {

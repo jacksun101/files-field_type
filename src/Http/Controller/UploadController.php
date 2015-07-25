@@ -45,6 +45,13 @@ class UploadController extends PublicController
             $disk = $disks->findBySlug($disk);
         }
 
+        if (!$disk) {
+            return $response->json(
+                'The configured upload disk [' . $request->get('disk') . '] does not exist!',
+                500
+            );
+        }
+
         $file = $manager->putStream(
             $disk->path(ltrim(trim($path, '/') . '/' . $file->getClientOriginalName(), '/')),
             fopen($file->getRealPath(), 'r+')
