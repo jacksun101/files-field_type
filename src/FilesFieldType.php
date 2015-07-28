@@ -61,6 +61,15 @@ class FilesFieldType extends FieldType implements SelfHandling
     ];
 
     /**
+     * The field type config.
+     *
+     * @var array
+     */
+    protected $config = [
+        'disk' => 'uploads'
+    ];
+
+    /**
      * Get the config.
      *
      * @return array
@@ -97,6 +106,24 @@ class FilesFieldType extends FieldType implements SelfHandling
 
             array_set($config, 'max', $file > $post ? $post : $file);
         }
+
+        /**
+         * Determine the max upload size allowed.
+         */
+        $post = str_replace('M', '', ini_get('post_max_size'));
+        $file = str_replace('M', '', ini_get('upload_max_filesize'));
+
+        $server = $file > $post ? $post : $file;
+
+        if (!$max = array_get($config, 'max')) {
+            $max = $server;
+        }
+
+        if ($max > $server) {
+            $max = $server;
+        }
+
+        array_set($config, 'max', $max);
 
         return $config;
     }
