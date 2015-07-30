@@ -45,6 +45,7 @@ class FilesFieldType extends FieldType implements SelfHandling
      * @var array
      */
     protected $rules = [
+        'rules',
         'valid_disk'
     ];
 
@@ -99,12 +100,12 @@ class FilesFieldType extends FieldType implements SelfHandling
         /**
          * Determine the default max upload size.
          */
-        if (!array_get($config, 'max')) {
+        if (!array_get($config, 'max_size')) {
 
             $post = str_replace('M', '', ini_get('post_max_size'));
             $file = str_replace('M', '', ini_get('upload_max_filesize'));
 
-            array_set($config, 'max', $file > $post ? $post : $file);
+            array_set($config, 'max_size', $file > $post ? $post : $file);
         }
 
         /**
@@ -115,7 +116,7 @@ class FilesFieldType extends FieldType implements SelfHandling
 
         $server = $file > $post ? $post : $file;
 
-        if (!$max = array_get($config, 'max')) {
+        if (!$max = array_get($config, 'max_size')) {
             $max = $server;
         }
 
@@ -123,9 +124,29 @@ class FilesFieldType extends FieldType implements SelfHandling
             $max = $server;
         }
 
-        array_set($config, 'max', $max);
+        array_set($config, 'max_size', $max);
 
         return $config;
+    }
+
+    /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        $rules = parent::getRules();
+
+        if ($min = array_get($this->getConfig(), 'min')) {
+            $rules[] = 'min:' . $min;
+        }
+
+        if ($max = array_get($this->getConfig(), 'max')) {
+            $rules[] = 'max:' . $max;
+        }
+
+        return $rules;
     }
 
     /**
