@@ -1,7 +1,7 @@
 <?php namespace Anomaly\FilesFieldType\Validation;
 
-use Anomaly\FilesFieldType\FilesFieldType;
 use Anomaly\FilesModule\Disk\Contract\DiskRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -15,15 +15,19 @@ use Illuminate\Contracts\Bus\SelfHandling;
 class ValidateDisk implements SelfHandling
 {
 
+
     /**
      * Handle the validation.
      *
-     * @param FilesFieldType          $fieldType
+     * @param FormBuilder             $builder
      * @param DiskRepositoryInterface $disks
+     * @param                         $attribute
      * @return bool
      */
-    public function handle(FilesFieldType $fieldType, DiskRepositoryInterface $disks)
+    public function handle(FormBuilder $builder, DiskRepositoryInterface $disks, $attribute)
     {
+        $fieldType = $builder->getFormField($attribute);
+
         $disk = array_get($fieldType->getConfig(), 'disk');
 
         if (is_numeric($disk) && !$disks->find($disk)) {
