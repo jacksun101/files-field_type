@@ -56,7 +56,7 @@ class CreatePivotTable
 
                 $table->integer('entry_id');
                 $table->integer('file_id');
-                $table->integer('sort_order');
+                $table->integer('sort_order')->nullable();
 
                 $table->primary(['entry_id', 'file_id']);
             }
