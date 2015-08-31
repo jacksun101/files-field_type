@@ -45,7 +45,6 @@ class FilesFieldType extends FieldType implements SelfHandling
      * @var array
      */
     protected $rules = [
-        'rules',
         'valid_disk'
     ];
 
