@@ -14,7 +14,9 @@
         {{ icon('upload', 'icon') }}
     </div>
 
-    {% include "anomaly.field_type.files::files" %}
-    {% include "anomaly.field_type.files::template" %}
+    <ul class="list-unstyled list-files sortable">
+        {% include "anomaly.field_type.files::files" %}
+        {% include "anomaly.field_type.files::template" %}
+    </ul>
 
 </div>

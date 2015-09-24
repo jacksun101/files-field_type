@@ -85,6 +85,13 @@ $(function () {
         myDropzone.on('queuecomplete', function (progress) {
             wrapper.find('[data-progress="total"]').css('visibility', 'hidden');
         });
+
+        $(this).find('.list-files').sortable({
+            placeholder: '<li class="placeholder"/>',
+            afterMove: function ($placeholder) {
+                $placeholder.closest('ul').find('.dragged').detach().insertBefore($placeholder);
+            }
+        });
     });
 
 

@@ -30,11 +30,11 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
     public function set($value)
     {
         if (is_array($value)) {
-            $this->fieldType->getRelation()->sync(array_filter($value));
+            $this->fieldType->getRelation()->sync($this->organizeSyncValue($value));
         }
 
         if ($value instanceof Collection) {
-            $this->fieldType->getRelation()->sync($value);
+            $this->fieldType->getRelation()->sync($this->organizeSyncValue($value->filter()->all()));
         }
     }
 
@@ -46,5 +46,26 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
     public function get()
     {
         return $this->fieldType->getRelation();
+    }
+
+    /**
+     * Organize the value for sync.
+     *
+     * @param array $value
+     * @return array
+     */
+    protected function organizeSyncValue(array $value)
+    {
+        $value = array_filter($value);
+
+        return array_combine(
+            array_values($value),
+            array_map(
+                function ($key) {
+                    return ['sort_order' => $key];
+                },
+                array_reverse(array_keys($value))
+            )
+        );
     }
 }

@@ -162,7 +162,7 @@ class FilesFieldType extends FieldType implements SelfHandling
             $this->getPivotTableName(),
             'entry_id',
             'file_id'
-        );
+        )->orderBy($this->getPivotTableName() . '.sort_order', 'ASC');
     }
 
     /**
