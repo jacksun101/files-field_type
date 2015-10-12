@@ -102,4 +102,12 @@ $(function () {
 
         $(this).closest('.media').remove();
     });
+
+    // Bind edit buttons.
+    $(document).on('click', '.files-field-type [data-action="edit"]', function (e) {
+
+        e.preventDefault();
+
+        //window.open(APPLICATION_URL + '/admin/files/edit/' + $(this).closest('li').data('file'), 'Edit', 'height=500,width=500');
+    });
 });
