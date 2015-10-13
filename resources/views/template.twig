@@ -23,6 +23,11 @@
                 {{ icon('times-circle') }}
                 <span>{{ trans('anomaly.field_type.files::button.remove') }}</span>
             </a>
+
+            <a class="btn btn-xs btn-warning edit" data-toggle="modal" data-target="#modal" data-action="edit">
+                {{ icon('pencil') }}
+                <span>{{ trans('streams::button.edit') }}</span>
+            </a>
         </div>
 
         <input type="hidden" name="{{ field_type.input_name }}[]">

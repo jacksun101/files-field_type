@@ -77,6 +77,9 @@ $(function () {
             // Set the preview link's href attribute.
             file.previewElement.querySelector('a.preview').setAttribute('href', APPLICATION_URL + '/streams/files-field_type/view/' + response.id);
 
+            // Set the edit link's href attribute.
+            file.previewElement.querySelector('a.edit').setAttribute('href', APPLICATION_URL + '/streams/files-field_type/edit/' + response.id);
+
             // Set the input's value so when we save it attaches.
             file.previewElement.querySelector('input').setAttribute('value', response.id);
         });

@@ -20,7 +20,8 @@ class FilesFieldTypeServiceProvider extends AddonServiceProvider
      */
     protected $routes = [
         'streams/files-field_type/upload'    => 'Anomaly\FilesFieldType\Http\Controller\UploadController@handle',
-        'streams/files-field_type/view/{id}' => 'Anomaly\FilesFieldType\Http\Controller\FilesController@view'
+        'streams/files-field_type/view/{id}' => 'Anomaly\FilesFieldType\Http\Controller\FilesController@view',
+        'streams/files-field_type/edit/{id}' => 'Anomaly\FilesFieldType\Http\Controller\FilesController@edit'
     ];
 
     /**
