@@ -65,9 +65,7 @@ class FilesFieldType extends FieldType implements SelfHandling
      *
      * @var array
      */
-    protected $config = [
-        'disk' => 'uploads'
-    ];
+    protected $config = [];
 
     /**
      * Get the config.

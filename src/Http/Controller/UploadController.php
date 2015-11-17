@@ -1,7 +1,7 @@
 <?php namespace Anomaly\FilesFieldType\Http\Controller;
 
-use Anomaly\FilesModule\Disk\Contract\DiskRepositoryInterface;
 use Anomaly\FilesModule\File\Contract\FileInterface;
+use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -21,44 +21,37 @@ class UploadController extends PublicController
     /**
      * Handle the file upload.
      *
-     * @param DiskRepositoryInterface $disks
-     * @param ResponseFactory         $response
-     * @param MountManager            $manager
-     * @param Request                 $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param FolderRepositoryInterface $folders
+     * @param MountManager              $manager
+     * @return mixed
      */
-    public function handle(
-        DiskRepositoryInterface $disks,
-        ResponseFactory $response,
-        MountManager $manager,
-        Request $request
-    ) {
+    public function handle(FolderRepositoryInterface $folders, MountManager $manager)
+    {
 
-        $path = trim($request->get('path'), '.');
+        $file   = $this->request->file('upload');
+        $folder = $this->request->get('folder');
 
-        $file = $request->file('upload');
-        $disk = $request->get('disk');
-
-        if (is_numeric($disk)) {
-            $disk = $disks->find($disk);
-        } elseif (is_string($disk)) {
-            $disk = $disks->findBySlug($disk);
+        if (is_numeric($folder)) {
+            $folder = $folders->find($folder);
+        } elseif (is_string($folder)) {
+            $folder = $folders->findBySlug($folder);
         }
 
-        if (!$disk) {
-            return $response->json(
-                'The configured upload disk [' . $request->get('disk') . '] does not exist!',
+        $disk = $folder->getDisk();
+
+        if (!$folder) {
+            return $this->response->json(
+                'The configured upload disk [' . $this->request->get('disk') . '] does not exist!',
                 500
             );
         }
 
+        /* @var FileInterface $file */
         $file = $manager->putStream(
-            $disk->path(ltrim(trim($path, '/') . '/' . $file->getClientOriginalName(), '/')),
+            $disk->getSlug() . '://' . $folder->getSlug() . '/' . $file->getClientOriginalName(),
             fopen($file->getRealPath(), 'r+')
         );
 
-        /* @var FileInterface $file */
-
-        return $response->json($file->getAttributes());
+        return $this->response->json($file->getAttributes());
     }
 }
