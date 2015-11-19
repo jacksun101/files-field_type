@@ -19,7 +19,9 @@ class FilesController extends PublicController
 
     public function index(FileTableBuilder $table, $id)
     {
-        return $table->setOption('attributes.id', $id)->render();
+        return $table->setOption('attributes.id', $id)->on('querying', function(Builder $query) {
+            $query->whereNotIn('id', explode(',', $this->request->get('selected', '')));
+        })->render();
     }
 
     public function choose(FolderRepositoryInterface $folders)

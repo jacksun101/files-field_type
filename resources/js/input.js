@@ -3,7 +3,12 @@ $(function () {
     // Initialize tag inputs.
     $('.files-field-type input.form-control').each(function () {
 
-        var config = {};
+        var config = {
+            itemValue: 'id',
+            itemText: 'filename',
+            allowDuplicates: false,
+            freeInput: false
+        };
 
         var source = $(this).data('source');
         var options = $(this).data('options');
@@ -18,9 +23,15 @@ $(function () {
                 source: options ? options.split(',') : source
             };
 
-            config.freeInput = $(this).data('allow_creating_tags')
+            config.freeInput = $(this).data('allow_creating_tags');
         }
 
-        $(this).tagsinput(config);
+        var input = $(this);
+
+        input.tagsinput(config);
+
+        $.each(JSON.parse($(this).val()), function (key, value) {
+            input.tagsinput('add', value);
+        });
     });
 });

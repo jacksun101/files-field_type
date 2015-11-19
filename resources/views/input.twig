@@ -3,32 +3,21 @@
 {{ asset_add("scripts.js", "anomaly.field_type.files::js/bootstrap3-typeahead.min.js") }}
 {{ asset_add("scripts.js", "anomaly.field_type.files::js/input.js") }}
 
-<div class="input-group">
+<a
+        href="{{ url('streams/files-field_type/files/' ~ field_type.input_name ~ '?selected=' ~ field_type.value.lists('id').all()|join(',')) }}"
+        data-toggle="modal"
+        data-target="#modal"
+        class="btn btn-default"
+        >{{ trans('anomaly.field_type.file::button.choose_file') }}</a>
 
-    <span class="input-group-btn">
-        <a
-                href="{{ url('streams/file-field_type/files/' ~ field_type.input_name) }}"
-                data-toggle="modal"
-                data-target="#modal"
-                class="btn btn-default"
-                >{{ trans('anomaly.field_type.file::button.choose_file') }}</a>
-    </span>
+<br><br>
 
-        <input
-                type="hidden"
-                name="{{ field_type.input_name }}"
-                value="{{ field_type.value.id }}"
-                {{ field_type.disabled ? 'disabled' }}
-                {{ field_type.readonly ? 'readonly' }}>
-
-        <input
-                class="form-control"
-                name="{{ field_type.input_name }}"
-                value="{{ field_type.value|join(',') }}"
-                placeholder="{{ trans(field_type.placeholder) }}"
-                data-options="{{ field_type.options|join(',') }}"
-                data-allow_creating_tags="{{ field_type.config.allow_creating_tags }}"
-                {{ field_type.disabled ? 'disabled' }}
-                {{ field_type.readonly ? 'readonly' }}>
-
-</div>
+<input
+        class="form-control"
+        name="{{ field_type.input_name }}"
+        value="{{ field_type.value.toArray()|json_encode }}"
+        placeholder="{{ trans(field_type.placeholder) }}"
+        data-options="{{ field_type.options|join(',') }}"
+        data-allow_creating_tags="{{ field_type.config.allow_creating_tags }}"
+        {{ field_type.disabled ? 'disabled' }}
+        {{ field_type.readonly ? 'readonly' }}>

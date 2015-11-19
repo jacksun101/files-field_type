@@ -188,4 +188,15 @@ class FilesFieldType extends FieldType implements SelfHandling
         // See the accessor for how IDs are handled.
         $entry->{$this->getField()} = $this->getPostValue();
     }
+
+    /**
+     * Get the post value.
+     *
+     * @param null $default
+     * @return array
+     */
+    public function getPostValue($default = null)
+    {
+        return explode(',', parent::getPostValue($default));
+    }
 }
