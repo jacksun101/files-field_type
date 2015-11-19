@@ -1,11 +1,10 @@
 <?php namespace Anomaly\FilesFieldType\Http\Controller;
 
+use Anomaly\FilesFieldType\Table\FileTableBuilder;
 use Anomaly\FilesModule\Entry\Form\EntryFormBuilder;
-use Anomaly\FilesModule\File\Contract\FileRepositoryInterface;
-use Anomaly\FilesModule\File\Form\FileEntryFormBuilder;
-use Anomaly\FilesModule\File\Form\FileFormBuilder;
+use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
-use Illuminate\Routing\Redirector;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class FilesController
@@ -18,61 +17,33 @@ use Illuminate\Routing\Redirector;
 class FilesController extends PublicController
 {
 
-    /**
-     * Redirect to a file's public URL.s
-     *
-     * @param FileRepositoryInterface $files
-     * @param Redirector              $redirector
-     * @param                         $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function view(FileRepositoryInterface $files, Redirector $redirector, $id)
+    public function index(FileTableBuilder $table, $id)
     {
-        $file = $files->find($id);
-
-        return $redirector->to($file->publicPath());
+        return $table->setOption('attributes.id', $id)->render();
     }
 
-    /**
-     * Return an edit form.
-     *
-     * @param FileEntryFormBuilder    $form
-     * @param FileRepositoryInterface $files
-     * @param EntryFormBuilder        $entryForm
-     * @param FileFormBuilder         $fileForm
-     * @param                         $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function edit(
-        FileEntryFormBuilder $form,
-        FileRepositoryInterface $files,
-        EntryFormBuilder $entryForm,
-        FileFormBuilder $fileForm,
-        $id
-    ) {
-        $file   = $files->find($id);
-        $disk   = $file->getDisk();
-        $stream = $disk->getEntriesStream();
+    public function choose(FolderRepositoryInterface $folders)
+    {
+        return view(
+            'anomaly.field_type.files::choose',
+            [
+                'folders' => $folders->all()
+            ]
+        );
+    }
 
-        $entryForm
-            ->setModel($stream->getEntryModel())
-            ->setEntry($file->getEntryId());
+    public function upload(FolderRepositoryInterface $folders)
+    {
+        return view('anomaly.field_type.files::upload', ['folder' => $folders->find($this->request->get('folder'))]);
+    }
 
-        $fileForm->setEntry($id);
-
-        $form
-            ->addForm('entry', $entryForm)
-            ->addForm('file', $fileForm);
-
-        $form
-            ->setAjax(true)
-            ->setActions(['save'])
-            ->setOption('title', $file->getName())
-            ->setOption('redirect', false)
-            ->setSections(function() {
-                return [];
-            });
-
-        return $form->render($id);
+    public function test(FileTableBuilder $table)
+    {
+        return $table->setOption('attributes.id', 'test_field')->on(
+            'querying',
+            function (Builder $query) {
+                $query->whereIn('id', explode(',', $this->request->get('uploaded')));
+            }
+        )->render();
     }
 }

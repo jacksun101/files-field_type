@@ -33,13 +33,6 @@ class FilesFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.files::input';
 
     /**
-     * The wrapper view.
-     *
-     * @var string
-     */
-    protected $wrapperView = 'anomaly.field_type.files::wrapper';
-
-    /**
      * The field type rules.
      *
      * @var array

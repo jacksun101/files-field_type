@@ -10,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\FileFieldType\Validation
+ * @package       Anomaly\FilesFieldType\Validation
  */
 class ValidateDisk implements SelfHandling
 {
