@@ -1,6 +1,6 @@
-{{ asset_add('scripts.js', 'anomaly.field_type.file::js/dropzone.min.js') }}
-{{ asset_add('scripts.js', 'anomaly.field_type.file::js/upload.js') }}
-{{ asset_add('styles.css', 'anomaly.field_type.file::less/upload.less') }}
+{{ asset_add('scripts.js', 'anomaly.field_type.files::js/dropzone.min.js') }}
+{{ asset_add('scripts.js', 'anomaly.field_type.files::js/upload.js') }}
+{{ asset_add('styles.css', 'anomaly.field_type.files::less/upload.less') }}
 
 {% for path in asset_paths("styles.css") %}
     {{ html_style(path) }}
@@ -29,11 +29,6 @@
         <div class="dropzone">
             {{ icon('upload', 'icon') }}
         </div>
-
-        <ul class="list-unstyled list-files sortable">
-            {% include "anomaly.field_type.files::files" %}
-            {% include "anomaly.field_type.files::template" %}
-        </ul>
 
     </div>
 
