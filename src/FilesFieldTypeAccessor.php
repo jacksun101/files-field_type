@@ -64,7 +64,7 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
                 function ($key) {
                     return ['sort_order' => $key];
                 },
-                array_reverse(array_keys($value))
+                array_keys($value)
             )
         );
     }
