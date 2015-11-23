@@ -41,6 +41,8 @@ $(function () {
             input.next('.bootstrap-tagsinput').find('.tag').last().attr('data-file', value.id);
         });
 
+        input.next('.bootstrap-tagsinput').find('input').css('visibility', 'hidden');
+
         var dragged = '';
 
         input.next('.bootstrap-tagsinput').sortable({
