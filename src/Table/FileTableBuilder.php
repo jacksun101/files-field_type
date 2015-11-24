@@ -35,7 +35,7 @@ class FileTableBuilder extends TableBuilder
      */
     protected $filters = [
         'folder',
-        'filename'
+        'name'
     ];
 
     /**
@@ -47,13 +47,13 @@ class FileTableBuilder extends TableBuilder
         'entry.preview' => [
             'heading' => 'anomaly.module.files::field.preview.name'
         ],
-        'filename'      => [
-            'sort_column'   => 'filename',
-            'data-file'     => 'entry.id',
-            'data-filename' => 'entry.filename',
-            'wrapper'       => '<h4 style="margin: 0 0 3px;">{value.filename}<br><small>{value.keywords}</small></h4>',
-            'value'         => [
-                'filename' => 'entry.filename',
+        'name'          => [
+            'sort_column' => 'name',
+            'data-file'   => 'entry.id',
+            'data-name'   => 'entry.name',
+            'wrapper'     => '<h4 style="margin: 0 0 3px;">{value.name}<br><small>{value.keywords}</small></h4>',
+            'value'       => [
+                'name'     => 'entry.name',
                 'keywords' => 'entry.keywords.labels'
             ]
         ],
@@ -70,20 +70,6 @@ class FileTableBuilder extends TableBuilder
      */
     protected $options = [
         'title' => 'anomaly.field_type.files::message.choose_file'
-    ];
-
-    /**
-     * The table assets.
-     *
-     * @var array
-     */
-    protected $assets = [
-        'styles.css' => [
-            'anomaly.field_type.files::less/table.less'
-        ],
-        'scripts.js' => [
-            'anomaly.field_type.files::js/table.js'
-        ]
     ];
 
 }

@@ -1,27 +1,45 @@
-{{ asset_add("styles.css", "anomaly.field_type.files::less/tagsinput.less") }}
-{{ asset_add("scripts.js", "anomaly.field_type.files::js/bootstrap-tagsinput.min.js") }}
-{{ asset_add("scripts.js", "anomaly.field_type.files::js/bootstrap3-typeahead.min.js") }}
-{{ asset_add("scripts.js", "anomaly.field_type.files::js/input.js") }}
+{{ asset_add('scripts.js', 'anomaly.field_type.files::js/input.js') }}
 
 <a
-        href="{{ url('streams/files-field_type/files/' ~ field_type.input_name ~ '?selected=' ~ field_type.value.lists('id').all()|join(',')) }}"
+        data-toggle="modal"
+        data-target="#{{ field_type.field }}-modal"
+        class="btn btn-default btn-xs"
+        href="{{ url(field_type.index_path) }}"
+        >{{ trans('anomaly.field_type.file::button.select_file') }}</a>
+
+<a
         data-toggle="modal"
         data-target="#modal"
-        class="btn btn-default"
-        >{{ trans('anomaly.field_type.file::button.choose_file') }}</a>
+        href="{{ url(field_type.upload_path) }}"
+        class="btn btn-success btn-xs"
+        >{{ trans('anomaly.field_type.file::button.upload') }}</a>
 
-<br><br>
+<a
+        target="_blank"
+        href="{{ url('admin/files/view/' ~ field_type.value.id) }}"
+        class="btn btn-info btn-xs {{ field_type.value.id ?: 'hidden' }}"
+        >{{ trans('streams::button.view') }}</a>
 
-<input
-        class="form-control"
-        name="{{ field_type.input_name }}"
-        value="{{ field_type.value.toArray()|json_encode }}"
-        placeholder="{{ trans(field_type.placeholder) }}"
-        data-options="{{ field_type.options|join(',') }}"
-        data-allow_creating_tags="{{ field_type.config.allow_creating_tags }}"
-        {{ field_type.disabled ? 'disabled' }}
-        {{ field_type.readonly ? 'readonly' }}>
+<a
+        target="_blank"
+        href="{{ url('admin/files/edit/' ~ field_type.value.id) }}"
+        class="btn btn-warning btn-xs {{ field_type.value.id ?: 'hidden' }}"
+        >{{ trans('streams::button.edit') }}</a>
 
-<small class="text-muted">
-    {{ trans('anomaly.field_type.files::input.help') }}
-</small>
+<a
+        href="#"
+        data-dismiss="file"
+        class="btn btn-danger btn-xs {{ field_type.value.id ?: 'hidden' }}"
+        >{{ trans('anomaly.field_type.file::button.remove') }}</a>
+
+<div class="selected"></div>
+
+<div class="modal remote" id="{{ field_type.field }}-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-loading">
+                <div class="active loader"></div>
+            </div>
+        </div>
+    </div>
+</div>

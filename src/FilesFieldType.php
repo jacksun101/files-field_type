@@ -199,4 +199,32 @@ class FilesFieldType extends FieldType implements SelfHandling
     {
         return explode(',', parent::getPostValue($default));
     }
+
+    /**
+     * Get the index path.
+     *
+     * @return string
+     */
+    public function getIndexPath()
+    {
+        $field     = $this->getField();
+        $stream    = $this->entry->getStreamSlug();
+        $namespace = $this->entry->getStreamNamespace();
+
+        return "streams/files-field_type/index";
+    }
+
+    /**
+     * Get the upload path.
+     *
+     * @return string
+     */
+    public function getUploadPath()
+    {
+        $field     = $this->getField();
+        $stream    = $this->entry->getStreamSlug();
+        $namespace = $this->entry->getStreamNamespace();
+
+        return "streams/files-field_type/choose/{$field}";
+    }
 }
