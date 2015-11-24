@@ -1,7 +1,7 @@
 $(function () {
 
     // Initialize tag inputs.
-    $('.files-field-type input.form-control').each(function () {
+    $('.files-field_type input.form-control').each(function () {
 
         var config = {
             itemValue: 'id',
