@@ -9,30 +9,21 @@
 
 <a
         data-toggle="modal"
-        data-target="#modal"
+        data-target="#{{ field_type.field }}-modal"
         href="{{ url(field_type.upload_path) }}"
         class="btn btn-success btn-xs"
         >{{ trans('anomaly.field_type.file::button.upload') }}</a>
 
-<a
-        target="_blank"
-        href="{{ url('admin/files/view/' ~ field_type.value.id) }}"
-        class="btn btn-info btn-xs {{ field_type.value.id ?: 'hidden' }}"
-        >{{ trans('streams::button.view') }}</a>
+<input
+        type="hidden"
+        name="{{ field_type.input_name }}"
+        value="{{ field_type.value.lists('id')|join(',') }}"
+        {{ field_type.disabled ? 'disabled' }}
+        {{ field_type.readonly ? 'readonly' }}>
 
-<a
-        target="_blank"
-        href="{{ url('admin/files/edit/' ~ field_type.value.id) }}"
-        class="btn btn-warning btn-xs {{ field_type.value.id ?: 'hidden' }}"
-        >{{ trans('streams::button.edit') }}</a>
-
-<a
-        href="#"
-        data-dismiss="file"
-        class="btn btn-danger btn-xs {{ field_type.value.id ?: 'hidden' }}"
-        >{{ trans('anomaly.field_type.file::button.remove') }}</a>
-
-<div class="selected"></div>
+<div class="selected">
+    {{ field_type.value_table|raw }}
+</div>
 
 <div class="modal remote" id="{{ field_type.field }}-modal">
     <div class="modal-dialog">

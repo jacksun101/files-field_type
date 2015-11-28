@@ -1,5 +1,6 @@
 <?php namespace Anomaly\FilesFieldType;
 
+use Anomaly\FilesFieldType\Table\ValueTableBuilder;
 use Anomaly\FilesFieldType\Validation\ValidateDisk;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
@@ -226,5 +227,19 @@ class FilesFieldType extends FieldType implements SelfHandling
         $namespace = $this->entry->getStreamNamespace();
 
         return "streams/files-field_type/choose/{$field}";
+    }
+
+    /**
+     * Value table.
+     *
+     * @return string
+     */
+    public function valueTable()
+    {
+        $table = app(ValueTableBuilder::class);
+
+        $files = $this->getValue();
+
+        return $table->setUploaded($files->isEmpty() ? null : $files->lists('id')->all())->make()->getTableContent();
     }
 }

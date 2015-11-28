@@ -49,16 +49,21 @@ class FileTableBuilder extends TableBuilder
         ],
         'name'          => [
             'sort_column' => 'name',
-            'data-file'   => 'entry.id',
-            'data-name'   => 'entry.name',
-            'wrapper'     => '<h4 style="margin: 0 0 3px;">{value.name}<br><small>{value.keywords}</small></h4>',
+            'wrapper'     => '<h4>{value.name}<br><small>{value.disk}://{value.folder}/{value.name}</small><small>{value.keywords}</small></h4>',
             'value'       => [
                 'name'     => 'entry.name',
-                'keywords' => 'entry.keywords.labels'
+                'folder'   => 'entry.folder.slug',
+                'keywords' => 'entry.keywords.labels',
+                'disk'     => 'entry.folder.disk.slug'
             ]
-        ],
+        ]
     ];
 
+    /**
+     * The table actions.
+     *
+     * @var array
+     */
     protected $actions = [
         'select'
     ];
@@ -69,7 +74,7 @@ class FileTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'title' => 'anomaly.field_type.files::message.choose_file'
+        'title' => 'anomaly.field_type.files::message.choose_files'
     ];
 
 }

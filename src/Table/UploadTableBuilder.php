@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ValueTableBuilder
+ * Class UploadTableBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\FilesFieldType\Table
  */
-class ValueTableBuilder extends TableBuilder
+class UploadTableBuilder extends TableBuilder
 {
 
     /**
@@ -23,11 +23,25 @@ class ValueTableBuilder extends TableBuilder
     protected $uploaded = [];
 
     /**
+     * The ajax flag.
+     *
+     * @var bool
+     */
+    protected $ajax = true;
+
+    /**
      * The table model.
      *
      * @var string
      */
     protected $model = FileModel::class;
+
+    /**
+     * The table filters.
+     *
+     * @var array
+     */
+    protected $filters = [];
 
     /**
      * The table columns.
@@ -56,8 +70,8 @@ class ValueTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
-        'remove' => [
-            'data-dismiss' => 'file'
+        'select' => [
+            'data-file' => 'entry.id'
         ]
     ];
 
@@ -67,24 +81,10 @@ class ValueTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'limit'              => 9999,
-        'panel_class'        => '',
+        'limit'              => 999,
         'container_class'    => '',
-        'show_headers'       => false,
         'sortable_headers'   => false,
-        'table_view'         => 'anomaly.field_type.files::table',
-        'no_results_message' => 'anomaly.field_type.files::message.no_files_selected'
-    ];
-
-    /**
-     * The table assets.
-     *
-     * @var array
-     */
-    protected $assets = [
-        'styles.css' => [
-            'anomaly.field_type.files::less/input.less'
-        ]
+        'no_results_message' => 'module::message.no_uploads'
     ];
 
     /**
