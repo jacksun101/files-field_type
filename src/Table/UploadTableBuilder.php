@@ -65,14 +65,12 @@ class UploadTableBuilder extends TableBuilder
     ];
 
     /**
-     * The table buttons.
+     * The table actions.
      *
      * @var array
      */
-    protected $buttons = [
-        'select' => [
-            'data-file' => 'entry.id'
-        ]
+    protected $actions = [
+        'select'
     ];
 
     /**

@@ -5,14 +5,14 @@
         data-target="#{{ field_type.field }}-modal"
         class="btn btn-default btn-xs"
         href="{{ url(field_type.index_path) }}"
-        >{{ trans('anomaly.field_type.file::button.select_file') }}</a>
+        >{{ trans('anomaly.field_type.files::button.select_file') }}</a>
 
 <a
         data-toggle="modal"
         data-target="#{{ field_type.field }}-modal"
         href="{{ url(field_type.upload_path) }}"
         class="btn btn-success btn-xs"
-        >{{ trans('anomaly.field_type.file::button.upload') }}</a>
+        >{{ trans('anomaly.field_type.files::button.upload') }}</a>
 
 <input
         type="hidden"

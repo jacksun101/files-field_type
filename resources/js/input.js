@@ -3,11 +3,11 @@ $(function () {
     // Initialize file pickers
     $('.files-field_type').each(function () {
 
-        var selected = [];
-
         var wrapper = $(this);
 
         var field = wrapper.data('field');
+
+        var selected = $('[name="entry_' + field + '"]').val().split(',');
 
         $('#' + field + '-modal').on('submit', 'form', function (e) {
 

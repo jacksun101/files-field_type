@@ -5,7 +5,6 @@ use Anomaly\FilesFieldType\Table\UploadTableBuilder;
 use Anomaly\FilesModule\File\FileUploader;
 use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class UploadController
@@ -27,7 +26,7 @@ class UploadController extends AdminController
      */
     public function index(FolderRepositoryInterface $folders, $folder)
     {
-        return $this->view->make('anomaly.field_type.file::upload/index', ['folder' => $folders->find($folder)]);
+        return $this->view->make('anomaly.field_type.files::upload/index', ['folder' => $folders->find($folder)]);
     }
 
     /**
