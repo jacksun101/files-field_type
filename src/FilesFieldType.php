@@ -240,6 +240,6 @@ class FilesFieldType extends FieldType implements SelfHandling
 
         $files = $this->getValue();
 
-        return $table->setUploaded($files->isEmpty() ? null : $files->lists('id')->all())->make()->getTableContent();
+        return $table->setUploaded($files->isEmpty() ? [] : $files->lists('id')->all())->make()->getTableContent();
     }
 }
