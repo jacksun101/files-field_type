@@ -21,7 +21,7 @@ $(function () {
                 selected.push(input.value);
             });
 
-            $('[name="entry_' + field + '"]').val(selected.join(','));
+            $('[name="' + field + '"]').val(selected.join(','));
 
             wrapper.find('.selected').load('/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
                 $('#' + field + '-modal').modal('hide');
@@ -34,7 +34,7 @@ $(function () {
 
             selected.splice(selected.indexOf($(this).data('file')), 1);
 
-            $('[name="entry_' + field + '"]').val(selected.join(','));
+            $('[name="' + field + '"]').val(selected.join(','));
 
             wrapper.find('.selected').load('/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
                 $('#' + field + '-modal').modal('hide');
