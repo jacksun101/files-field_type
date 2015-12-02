@@ -60,12 +60,14 @@ class FileTableBuilder extends TableBuilder
     ];
 
     /**
-     * The table actions.
+     * The table buttons.
      *
      * @var array
      */
-    protected $actions = [
-        'select'
+    protected $buttons = [
+        'add' => [
+            'data-file' => 'entry.id'
+        ]
     ];
 
     /**

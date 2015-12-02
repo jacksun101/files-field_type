@@ -2,13 +2,8 @@
 
 use Anomaly\FilesFieldType\Table\FileTableBuilder;
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
-use Anomaly\FilesModule\Disk\Contract\DiskInterface;
-use Anomaly\FilesModule\File\Contract\FileInterface;
-use Anomaly\FilesModule\Folder\Contract\FolderInterface;
 use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
-use Illuminate\Database\Eloquent\Builder;
-use League\Flysystem\MountManager;
 
 /**
  * Class FilesController
@@ -41,13 +36,19 @@ class FilesController extends AdminController
     public function choose(FolderRepositoryInterface $folders)
     {
         return $this->view->make(
-            'anomaly.field_type.file::choose',
+            'anomaly.field_type.files::choose',
             [
                 'folders' => $folders->all()
             ]
         );
     }
 
+    /**
+     * Return a table of select items.
+     *
+     * @param ValueTableBuilder $table
+     * @return null|string
+     */
     public function selected(ValueTableBuilder $table)
     {
         return $table->setUploaded(explode(',', $this->request->get('uploaded')))->make()->getTableContent();

@@ -70,7 +70,7 @@ class UploadTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
-        'select' => [
+        'add' => [
             'data-file' => 'entry.id'
         ]
     ];
@@ -84,7 +84,7 @@ class UploadTableBuilder extends TableBuilder
         'limit'              => 999,
         'container_class'    => '',
         'sortable_headers'   => false,
-        'no_results_message' => 'module::message.no_uploads'
+        'no_results_message' => 'anomaly.field_type.files::message.no_uploads'
     ];
 
     /**

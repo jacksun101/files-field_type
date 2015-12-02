@@ -1,7 +1,6 @@
 <?php namespace Anomaly\FilesFieldType;
 
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
-use Anomaly\FilesFieldType\Validation\ValidateDisk;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -34,91 +33,11 @@ class FilesFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.files::input';
 
     /**
-     * The field type rules.
-     *
-     * @var array
-     */
-    protected $rules = [
-        'valid_disk'
-    ];
-
-    /**
-     * The field type validators.
-     *
-     * @var array
-     */
-    protected $validators = [
-        'valid_disk' => [
-            'handler' => ValidateDisk::class,
-            'message' => 'anomaly.field_type.files::validation.valid_disk'
-        ]
-    ];
-
-    /**
      * The field type config.
      *
      * @var array
      */
     protected $config = [];
-
-    /**
-     * Get the config.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        $config = parent::getConfig();
-
-        /**
-         * If images only manually set
-         * the allowed mimes.
-         */
-        if (array_get($config, 'image')) {
-            array_set($config, 'mimes', ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg']);
-        }
-
-        /**
-         * If restricting mimes then prepend
-         * with a period as Dropzone requires.
-         */
-        if (isset($config['mimes'])) {
-            foreach ($config['mimes'] as &$extension) {
-                $extension = '.' . $extension;
-            }
-        }
-
-        /**
-         * Determine the default max upload size.
-         */
-        if (!array_get($config, 'max_size')) {
-
-            $post = str_replace('M', '', ini_get('post_max_size'));
-            $file = str_replace('M', '', ini_get('upload_max_filesize'));
-
-            array_set($config, 'max_size', $file > $post ? $post : $file);
-        }
-
-        /**
-         * Determine the max upload size allowed.
-         */
-        $post = str_replace('M', '', ini_get('post_max_size'));
-        $file = str_replace('M', '', ini_get('upload_max_filesize'));
-
-        $server = $file > $post ? $post : $file;
-
-        if (!$max = array_get($config, 'max_size')) {
-            $max = $server;
-        }
-
-        if ($max > $server) {
-            $max = $server;
-        }
-
-        array_set($config, 'max_size', $max);
-
-        return $config;
-    }
 
     /**
      * Get the rules.
@@ -226,7 +145,7 @@ class FilesFieldType extends FieldType implements SelfHandling
         $stream    = $this->entry->getStreamSlug();
         $namespace = $this->entry->getStreamNamespace();
 
-        return "streams/files-field_type/choose/{$field}";
+        return "streams/files-field_type/choose";
     }
 
     /**

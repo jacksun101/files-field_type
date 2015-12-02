@@ -22,12 +22,19 @@ class UploadController extends AdminController
      * Return the uploader.
      *
      * @param FolderRepositoryInterface $folders
+     * @param UploadTableBuilder        $table
      * @param                           $folder
      * @return \Illuminate\View\View
      */
-    public function index(FolderRepositoryInterface $folders, $folder)
+    public function index(FolderRepositoryInterface $folders, UploadTableBuilder $table, $folder)
     {
-        return $this->view->make('anomaly.field_type.file::upload/index', ['folder' => $folders->find($folder)]);
+        return $this->view->make(
+            'anomaly.field_type.files::upload/index',
+            [
+                'folder' => $folders->find($folder),
+                'table' => $table->make()->getTable()
+            ]
+        );
     }
 
     /**
