@@ -3,6 +3,8 @@
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Support\Query;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -159,6 +161,10 @@ class FilesFieldType extends FieldType implements SelfHandling
 
         $files = $this->getValue();
 
-        return $table->setUploaded($files->isEmpty() ? [] : $files->lists('id')->all())->make()->getTableContent();
+        if (!$files instanceof Collection) {
+            $files;
+        }
+
+        return $table->setUploaded($files ? [] : $files->lists('id')->all())->make()->getTableContent();
     }
 }
