@@ -161,10 +161,6 @@ class FilesFieldType extends FieldType implements SelfHandling
 
         $files = $this->getValue();
 
-        if (!$files instanceof Collection) {
-            $files = null;
-        }
-
         return $table->setUploaded($files ? [] : $files->lists('id')->all())->make()->getTableContent();
     }
 }
