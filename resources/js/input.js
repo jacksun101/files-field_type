@@ -23,7 +23,7 @@ $(function () {
 
             $('[name="' + field + '"]').val(selected.join(','));
 
-            wrapper.find('.selected').load('/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
+            wrapper.find('.selected').load(APPLICATION_URL + '/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
                 $('#' + field + '-modal').modal('hide');
             });
         });
@@ -36,7 +36,7 @@ $(function () {
 
             $('[name="' + field + '"]').val(selected.join(','));
 
-            wrapper.find('.selected').load('/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
+            wrapper.find('.selected').load(APPLICATION_URL + '/streams/files-field_type/selected?uploaded=' + selected.join(','), function () {
                 $('#' + field + '-modal').modal('hide');
             });
         });
