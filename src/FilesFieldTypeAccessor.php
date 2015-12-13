@@ -36,6 +36,10 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
         if ($value instanceof Collection) {
             $this->fieldType->getRelation()->sync($this->organizeSyncValue($value->filter()->all()));
         }
+
+        if (!$value) {
+            $this->fieldType->getRelation()->detach();
+        }
     }
 
     /**
