@@ -1,13 +1,23 @@
 <?php
 
+use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
+
 return [
-    'min' => [
+    'folders' => [
+        'type'   => 'anomaly.field_type.checkboxes',
+        'config' => [
+            'options' => function (FolderRepositoryInterface $folders) {
+                return $folders->all()->lists('name', 'id')->all();
+            }
+        ]
+    ],
+    'min'     => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
             'min' => 1
         ]
     ],
-    'max' => [
+    'max'     => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
             'min' => 1

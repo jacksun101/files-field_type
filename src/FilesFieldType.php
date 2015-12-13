@@ -3,10 +3,11 @@
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Support\Query;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -42,6 +43,23 @@ class FilesFieldType extends FieldType implements SelfHandling
     protected $config = [];
 
     /**
+     * The cache repository.
+     *
+     * @var Repository
+     */
+    protected $cache;
+
+    /**
+     * Create a new FileFieldType instance.
+     *
+     * @param Repository $cache
+     */
+    public function __construct(Repository $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
      * Get the rules.
      *
      * @return array
@@ -59,6 +77,22 @@ class FilesFieldType extends FieldType implements SelfHandling
         }
 
         return $rules;
+    }
+
+    /**
+     * Get the config.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        $config = parent::getConfig();
+
+        if (!array_get($config, 'folders')) {
+            $config['folders'] = [];
+        }
+
+        return $config;
     }
 
     /**
@@ -123,31 +157,17 @@ class FilesFieldType extends FieldType implements SelfHandling
     }
 
     /**
-     * Get the index path.
+     * Return the config key.
      *
      * @return string
      */
-    public function getIndexPath()
+    public function configKey()
     {
-        $field     = $this->getField();
-        $stream    = $this->entry->getStreamSlug();
-        $namespace = $this->entry->getStreamNamespace();
+        $key = md5(json_encode($this->getConfig()));
 
-        return "streams/files-field_type/index";
-    }
+        $this->cache->put('files-field_type::' . $key, $this->getConfig(), 30);
 
-    /**
-     * Get the upload path.
-     *
-     * @return string
-     */
-    public function getUploadPath()
-    {
-        $field     = $this->getField();
-        $stream    = $this->entry->getStreamSlug();
-        $namespace = $this->entry->getStreamNamespace();
-
-        return "streams/files-field_type/choose";
+        return $key;
     }
 
     /**
@@ -161,6 +181,10 @@ class FilesFieldType extends FieldType implements SelfHandling
 
         $files = $this->getValue();
 
-        return $table->setUploaded($files ? [] : $files->lists('id')->all())->make()->getTableContent();
+        if ($files instanceof EntryCollection) {
+            $files = $files->lists('id')->all();
+        }
+
+        return $table->setUploaded($files)->build()->response()->getTableContent();
     }
 }

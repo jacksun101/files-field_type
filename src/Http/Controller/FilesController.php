@@ -2,8 +2,12 @@
 
 use Anomaly\FilesFieldType\Table\FileTableBuilder;
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
+use Anomaly\FilesModule\Folder\Command\GetFolder;
+use Anomaly\FilesModule\Folder\Contract\FolderInterface;
 use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
+use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Http\Request;
 
 /**
  * Class FilesController
@@ -33,12 +37,28 @@ class FilesController extends AdminController
      * @param FolderRepositoryInterface $folders
      * @return \Illuminate\View\View
      */
-    public function choose(FolderRepositoryInterface $folders)
+    public function choose(FolderRepositoryInterface $folders, Repository $cache, Request $request)
     {
+        $allowed = [];
+
+        $config = $cache->get('files-field_type::' . $request->route('key'), []);
+
+        foreach (array_get($config, 'folders', []) as $identifier) {
+
+            /* @var FolderInterface $folder */
+            if ($folder = $this->dispatch(new GetFolder($identifier))) {
+                $allowed[] = $folder;
+            }
+        }
+
+        if (!$allowed) {
+            $allowed = $folders->all();
+        }
+
         return $this->view->make(
             'anomaly.field_type.files::choose',
             [
-                'folders' => $folders->all()
+                'folders' => $allowed
             ]
         );
     }
