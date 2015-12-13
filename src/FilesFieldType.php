@@ -88,9 +88,7 @@ class FilesFieldType extends FieldType implements SelfHandling
     {
         $config = parent::getConfig();
 
-        if (!array_get($config, 'folders')) {
-            $config['folders'] = [];
-        }
+        array_set($config, 'folders', (array)$this->config('folders', []));
 
         return $config;
     }
