@@ -5,7 +5,6 @@ use Anomaly\FilesFieldType\Table\UploadTableBuilder;
 use Anomaly\FilesModule\File\FileUploader;
 use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class UploadController
