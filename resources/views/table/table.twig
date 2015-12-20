@@ -18,7 +18,7 @@
                         {{ html_attributes(table.options.attributes) }}>
 
                     {% block body %}
-                        {{ view("streams::table/partials/body", {'table': table}) }}
+                        {{ view("anomaly.field_type.files::table/partials/body", {'table': table}) }}
                     {% endblock %}
 
                 </table>

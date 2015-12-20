@@ -1,5 +1,7 @@
 <?php namespace Anomaly\FilesFieldType\Table;
 
+use Anomaly\FileFieldType\FileFieldType;
+use Anomaly\FilesFieldType\FilesFieldType;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,11 +18,11 @@ class ValueTableBuilder extends TableBuilder
 {
 
     /**
-     * The uploaded IDs.
+     * The field type.
      *
-     * @var array
+     * @var null|FileFieldType
      */
-    protected $uploaded = [];
+    protected $fieldType = null;
 
     /**
      * The table model.
@@ -36,7 +38,8 @@ class ValueTableBuilder extends TableBuilder
      */
     protected $buttons = [
         'remove' => [
-            'data-dismiss' => 'file'
+            'data-dismiss' => 'file',
+            'data-file'    => 'entry.id'
         ]
     ];
 
@@ -51,7 +54,7 @@ class ValueTableBuilder extends TableBuilder
         'container_class'    => '',
         'show_headers'       => false,
         'sortable_headers'   => false,
-        'table_view'         => 'anomaly.field_type.files::table',
+        'table_view'         => 'anomaly.field_type.files::table/table',
         'no_results_message' => 'anomaly.field_type.files::message.no_files_selected'
     ];
 
@@ -74,33 +77,36 @@ class ValueTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $uploaded = $this->getUploaded();
+        $fieldType = $this->getFieldType();
+        $entry     = $fieldType->getEntry();
+        $table     = $fieldType->getPivotTableName();
 
-        $query->whereIn('id', $uploaded ?: [0]);
+        $query->join($table, $table . '.file_id', '=', 'files_files.id');
 
-        $query->orderBy('updated_at', 'ASC');
-        $query->orderBy('created_at', 'ASC');
+        $query->where($table . '.entry_id', $entry->getId());
+
+        $query->orderBy($table . '.sort_order', 'ASC');
     }
 
     /**
-     * Get uploaded IDs.
+     * Get the field type.
      *
-     * @return array
+     * @return FilesFieldType|null
      */
-    public function getUploaded()
+    public function getFieldType()
     {
-        return $this->uploaded;
+        return $this->fieldType;
     }
 
     /**
-     * Set the uploaded IDs.
+     * Set the field type.
      *
-     * @param array $uploaded
+     * @param FilesFieldType $fieldType
      * @return $this
      */
-    public function setUploaded(array $uploaded)
+    public function setFieldType(FilesFieldType $fieldType)
     {
-        $this->uploaded = $uploaded;
+        $this->fieldType = $fieldType;
 
         return $this;
     }

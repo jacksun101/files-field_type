@@ -34,5 +34,27 @@ $(function () {
                 $('#' + field + '-modal').modal('hide');
             });
         });
+
+        wrapper.find('table').sortable({
+            handle: '.handle',
+            itemSelector: 'tr',
+            itemPath: '> tbody',
+            containerSelector: 'table',
+            placeholder: '<tr class="placeholder"/>',
+            afterMove: function ($placeholder) {
+
+                $placeholder.closest('table').find('button.reorder').removeClass('disabled');
+
+                $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
+
+                selected = [];
+
+                $(wrapper.find('table').find('[data-dismiss="file"]')).each(function() {
+                    selected.push($(this).data('file'));
+                });
+console.log(selected.join(','));
+                $('[name="' + field + '"]').val(selected.join(','));
+            }
+        });
     });
 });
