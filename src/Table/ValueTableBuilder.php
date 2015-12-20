@@ -18,6 +18,13 @@ class ValueTableBuilder extends TableBuilder
 {
 
     /**
+     * The uploaded IDs.
+     *
+     * @var array
+     */
+    protected $uploaded = [];
+
+    /**
      * The field type.
      *
      * @var null|FileFieldType
@@ -77,15 +84,29 @@ class ValueTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $fieldType = $this->getFieldType();
-        $entry     = $fieldType->getEntry();
-        $table     = $fieldType->getPivotTableName();
+        $uploaded = $this->getUploaded();
 
-        $query->join($table, $table . '.file_id', '=', 'files_files.id');
+        if ($fieldType = $this->getFieldType()) {
 
-        $query->where($table . '.entry_id', $entry->getId());
+            /**
+             * If we have the entry available then
+             * we can determine saved sort order.
+             */
+            $entry     = $fieldType->getEntry();
+            $table     = $fieldType->getPivotTableName();
 
-        $query->orderBy($table . '.sort_order', 'ASC');
+            $query->join($table, $table . '.file_id', '=', 'files_files.id');
+            $query->where($table . '.entry_id', $entry->getId());
+            $query->orderBy($table . '.sort_order', 'ASC');
+        } else {
+
+            /**
+             * If all we have is ID then just use that.
+             * The JS / UI will be handling the sort
+             * order at this time.
+             */
+            $query->whereIn('id', $uploaded ?: [0]);
+        }
     }
 
     /**
@@ -107,6 +128,29 @@ class ValueTableBuilder extends TableBuilder
     public function setFieldType(FilesFieldType $fieldType)
     {
         $this->fieldType = $fieldType;
+
+        return $this;
+    }
+
+    /**
+     * Get the uploaded.
+     *
+     * @return array
+     */
+    public function getUploaded()
+    {
+        return $this->uploaded;
+    }
+
+    /**
+     * Set the uploaded.
+     *
+     * @param $uploaded
+     * @return $this
+     */
+    public function setUploaded($uploaded)
+    {
+        $this->uploaded = $uploaded;
 
         return $this;
     }

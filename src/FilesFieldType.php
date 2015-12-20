@@ -3,6 +3,7 @@
 use Anomaly\FilesFieldType\Table\ValueTableBuilder;
 use Anomaly\FilesModule\File\FileModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Cache\Repository;
@@ -175,6 +176,12 @@ class FilesFieldType extends FieldType implements SelfHandling
     {
         $table = app(ValueTableBuilder::class);
 
-        return $table->setFieldType($this)->build()->response()->getTableContent();
+        $files = $this->getValue();
+
+        if ($files instanceof EntryCollection) {
+            $files = $files->lists('id')->all();
+        }
+
+        return $table->setFieldType($this)->setUploaded($files)->build()->response()->getTableContent();
     }
 }
