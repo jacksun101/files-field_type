@@ -92,8 +92,8 @@ class ValueTableBuilder extends TableBuilder
              * If we have the entry available then
              * we can determine saved sort order.
              */
-            $entry     = $fieldType->getEntry();
-            $table     = $fieldType->getPivotTableName();
+            $entry = $fieldType->getEntry();
+            $table = $fieldType->getPivotTableName();
 
             $query->join($table, $table . '.file_id', '=', 'files_files.id');
             $query->where($table . '.entry_id', $entry->getId());
@@ -153,5 +153,24 @@ class ValueTableBuilder extends TableBuilder
         $this->uploaded = $uploaded;
 
         return $this;
+    }
+
+    /**
+     * Set the table entries.
+     *
+     * @param \Illuminate\Support\Collection $entries
+     * @return $this
+     */
+    public function setTableEntries(\Illuminate\Support\Collection $entries)
+    {
+        if (!$this->getFieldType()) {
+            $entries = $entries->sort(
+                function ($a, $b) {
+                    return array_search($a->id, $this->getUploaded()) - array_search($b->id, $this->getUploaded());
+                }
+            );
+        }
+
+        return parent::setTableEntries($entries);
     }
 }
