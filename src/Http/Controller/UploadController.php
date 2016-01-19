@@ -3,8 +3,9 @@
 use Anomaly\FilesFieldType\Table\FileTableBuilder;
 use Anomaly\FilesFieldType\Table\UploadTableBuilder;
 use Anomaly\FilesModule\File\FileUploader;
-use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
+use Anomaly\FilesModule\Folder\Command\GetFolder;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class UploadController
@@ -17,21 +18,22 @@ use Anomaly\Streams\Platform\Http\Controller\AdminController;
 class UploadController extends AdminController
 {
 
+    use DispatchesJobs;
+
     /**
      * Return the uploader.
      *
-     * @param FolderRepositoryInterface $folders
      * @param UploadTableBuilder        $table
      * @param                           $folder
      * @return \Illuminate\View\View
      */
-    public function index(FolderRepositoryInterface $folders, UploadTableBuilder $table, $folder)
+    public function index(UploadTableBuilder $table, $folder)
     {
         return $this->view->make(
             'anomaly.field_type.files::upload/index',
             [
-                'folder' => $folders->find($folder),
-                'table' => $table->make()->getTable()
+                'folder' => $this->dispatch(new GetFolder($folder)),
+                'table'  => $table->make()->getTable()
             ]
         );
     }
