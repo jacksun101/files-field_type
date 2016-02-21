@@ -4,6 +4,7 @@ use Anomaly\FilesFieldType\Table\FileTableBuilder;
 use Anomaly\FilesFieldType\Table\UploadTableBuilder;
 use Anomaly\FilesModule\File\FileUploader;
 use Anomaly\FilesModule\Folder\Command\GetFolder;
+use Anomaly\FilesModule\Folder\Contract\FolderRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
