@@ -86,7 +86,8 @@ class FileTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'title' => 'anomaly.field_type.files::message.choose_files'
+        'enable_views' => false,
+        'title'        => 'anomaly.field_type.files::message.choose_files'
     ];
 
     /**
