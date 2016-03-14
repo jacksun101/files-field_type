@@ -10,7 +10,7 @@ $(function () {
 
         var selected = $('[name="' + field + '"]').val().split(',');
 
-        wrapper.sort = function() {
+        wrapper.sort = function () {
             wrapper.find('table').sortable({
                 handle: '.handle',
                 itemSelector: 'tr',
@@ -25,7 +25,7 @@ $(function () {
 
                     selected = [];
 
-                    $(wrapper.find('table').find('[data-dismiss="file"]')).each(function() {
+                    $(wrapper.find('table').find('[data-dismiss="file"]')).each(function () {
                         selected.push(String($(this).data('file')));
                     });
 
@@ -47,8 +47,8 @@ $(function () {
             $(this).closest('tr').addClass('success').fadeOut();
 
             wrapper.find('.selected').load(
-                APPLICATION_URL + '/streams/files-field_type/selected?uploaded=' + selected.join(','),
-                function() {
+                '/streams/files-field_type/selected?uploaded=' + selected.join(','),
+                function () {
                     wrapper.sort();
                 }
             );
