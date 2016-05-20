@@ -26,19 +26,4 @@ class FilesFieldTypeServiceProvider extends AddonServiceProvider
         'streams/files-field_type/handle'          => 'Anomaly\FilesFieldType\Http\Controller\UploadController@upload',
         'streams/files-field_type/recent'          => 'Anomaly\FilesFieldType\Http\Controller\UploadController@recent',
     ];
-
-    /**
-     * The addon listeners.
-     *
-     * @var array
-     */
-    protected $listeners = [
-        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated' => [
-            'Anomaly\FilesFieldType\Listener\CreatePivotTable'
-        ],
-        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted' => [
-            'Anomaly\FilesFieldType\Listener\DropPivotTable'
-        ]
-    ];
-
 }
