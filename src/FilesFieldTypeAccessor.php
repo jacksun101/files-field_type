@@ -1,6 +1,7 @@
 <?php namespace Anomaly\FilesFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -35,6 +36,10 @@ class FilesFieldTypeAccessor extends FieldTypeAccessor
 
         if ($value instanceof Collection) {
             $this->fieldType->getRelation()->sync($this->organizeSyncValue($value->filter()->all()));
+        }
+
+        if ($value instanceof EntryInterface) {
+            $this->fieldType->getRelation()->sync($this->organizeSyncValue([$value->getId()]));
         }
 
         if (!$value) {
