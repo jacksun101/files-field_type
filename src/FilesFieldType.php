@@ -182,6 +182,6 @@ class FilesFieldType extends FieldType implements SelfHandling
             $files = $files->lists('id')->all();
         }
 
-        return $table->setFieldType($this)->setUploaded($files)->build()->response()->getTableContent();
+        return $table->setFieldType($this)->setUploaded($files)->build()->load()->getTableContent();
     }
 }
